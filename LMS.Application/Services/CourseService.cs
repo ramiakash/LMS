@@ -2,47 +2,98 @@
 using LMS.Application.Interfaces;
 using LMS.Application.Models.DTOs;
 using LMS.Domain.Core.Repositories;
+using LMS.Domain.Entities;
+using LMS.Domain.Enums;
+using LMS.Domain.Specification;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace LMS.Application.Services
 {
 	public class CourseService : ICourseService
 	{
 		private readonly IUnitOfWork _unitOfWork;
-		 
-        public CourseService(IUnitOfWork unitOfWork )
+
+		public CourseService(IUnitOfWork unitOfWork)
 		{
 			_unitOfWork = unitOfWork;
 			//_loggerService = loggerService;
 		}
-	 
-        public Task<CourseDto> AddCourse(CourseDto course)
+
+		public async Task<CourseDto> CreateCourseAsync(CourseDto courseDto)
 		{
-			throw new NotImplementedException();
+			var course = await _unitOfWork.Repository<Course>().AddAsync(new Course
+			{
+				Id = courseDto.Id,
+				Name = courseDto.Name,
+				Description = courseDto.Description,
+				Price = courseDto.Price,
+				Students = courseDto.Students,
+				Teachers = courseDto.Teachers
+
+			});
+
+			await _unitOfWork.SaveChangesAsync();
+
+			//_loggerService.LogInfo("New user created");
+
+			return new CourseDto(course);
 		}
 
-		public Task<CourseDto> AddStudent(UserDTO userDTO)
+		public async Task<CourseDto> DeleteCourseAsync(Guid courseId)
 		{
-			throw new NotImplementedException();
+			var spec = CourseSpecification.GetCourseById(courseId);
+			var course = await _unitOfWork.Repository<Course>().FirstOrDefaultAsync(spec);
+			if (course == null)
+			{
+				throw new KeyNotFoundException($"Course with ID {courseId} not found.");
+			}
+			_unitOfWork.Repository<Course>().Delete(course);
+
+			await _unitOfWork.SaveChangesAsync();
+
+			//_loggerService.LogInfo("New user created");
+
+			return new CourseDto(course);
 		}
 
-		public Task<CourseDto> GetEnrolledStudents(CourseDto courseDto)
+		public async Task<IEnumerable<CourseDto>> GetAllCourses()
 		{
-			throw new NotImplementedException();
+			var courses = await _unitOfWork.Repository<Course>().ListAllAsync();
+			return courses.Select(course => new CourseDto(course));
 		}
 
-		public Task<CourseDto> ModifyCourse(CourseDto course)
+		public async Task<CourseDto> GetCourse(Guid courseId)
 		{
-			throw new NotImplementedException();
+			var course = await _unitOfWork.Repository<Course>().GetByIdAsync(courseId);
+			return new CourseDto(course);
 		}
 
-		public Task<CourseDto> RemoveStudent(UserDTO userDTO)
+		public async Task<CourseDto> UpdateCourseAsync(CourseDto courseDto)
 		{
-			throw new NotImplementedException();
+			var course = await _unitOfWork.Repository<Course>().GetByIdAsync(courseDto.Id);
+
+			if (course == null)
+			{
+				throw new KeyNotFoundException("Course not found");
+			}
+
+			course.Name = courseDto.Name;
+			course.Description = courseDto.Description;
+			course.Price = courseDto.Price;
+			course.Students = courseDto.Students;
+			course.Teachers = courseDto.Teachers;
+
+			_unitOfWork.Repository<Course>().Update(course);
+			await _unitOfWork.SaveChangesAsync();
+
+			return new CourseDto(course);
 		}
+
 	}
 }

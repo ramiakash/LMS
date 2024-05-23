@@ -18,15 +18,16 @@ namespace LMS.Application.Services
 			_unitOfWork = unitOfWork;
 		}
 
-		public async Task<UserDTO> CreateUser(UserDTO req)
+		public async Task<UserDTO> CreateUser(UserDTO userDto)
 		{
 			var user = await _unitOfWork.Repository<User>().AddAsync(new User
 			{
-				FirstName = req.FirstName,
-				LastName = req.LastName,
-				EmailId = req.EmailId,
-				Password = req.Password,
-				Status = (UserStatus)req.Status
+				FirstName = userDto.FirstName,
+				LastName = userDto.LastName,
+				EmailId = userDto.EmailId,
+				Password = userDto.Password,
+				Status = (UserStatus)userDto.Status,
+				Role = (UserRole)userDto.Role
 			});
 
 			await _unitOfWork.SaveChangesAsync();

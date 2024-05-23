@@ -9,11 +9,11 @@ namespace LMS.Application.Interfaces
 {
 	public interface ICourseService
 	{
-		Task<CourseDto> AddCourse(CourseDto course);
-		Task<CourseDto> ModifyCourse(CourseDto course);
-		Task<CourseDto> AddStudent(UserDTO userDTO);
-		Task<CourseDto> RemoveStudent(UserDTO userDTO);
-		Task<CourseDto> GetEnrolledStudents(CourseDto courseDto);
+		Task<CourseDto> CreateCourseAsync(CourseDto courseDto);
+		Task<CourseDto> UpdateCourseAsync(CourseDto courseDto);
+		Task<CourseDto> DeleteCourseAsync(Guid courseId);
+		Task<IEnumerable<CourseDto>> GetAllCourses();
+		Task<CourseDto> GetCourse(Guid courseId);
 
 	}
 }
