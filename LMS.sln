@@ -5,9 +5,11 @@ VisualStudioVersion = 17.9.34728.123
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LMS.Domain", "LMS.Domain\LMS.Domain.csproj", "{AA954F2B-AC6B-4E79-9D45-5D4E6BEA6588}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LMS.Application", "LMS.Application\LMS.Application.csproj", "{5FA3799B-296F-45AC-8701-42EB8187225D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LMS.Application", "LMS.Application\LMS.Application.csproj", "{5FA3799B-296F-45AC-8701-42EB8187225D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infastructure", "Infastructure\Infastructure.csproj", "{EA61DBB7-4854-4755-89BB-977B281F58BA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LMS.WebAPI", "LMS.WebAPI\LMS.WebAPI.csproj", "{DEE8371F-E669-44C5-B109-880F3BAC6787}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LMS.Infrastructure", "LMS.Infrastructure\LMS.Infrastructure.csproj", "{3EEB2BE1-99C4-442D-AAD6-C48C6107AA70}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +25,14 @@ Global
 		{5FA3799B-296F-45AC-8701-42EB8187225D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5FA3799B-296F-45AC-8701-42EB8187225D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5FA3799B-296F-45AC-8701-42EB8187225D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{EA61DBB7-4854-4755-89BB-977B281F58BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EA61DBB7-4854-4755-89BB-977B281F58BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EA61DBB7-4854-4755-89BB-977B281F58BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EA61DBB7-4854-4755-89BB-977B281F58BA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DEE8371F-E669-44C5-B109-880F3BAC6787}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DEE8371F-E669-44C5-B109-880F3BAC6787}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DEE8371F-E669-44C5-B109-880F3BAC6787}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DEE8371F-E669-44C5-B109-880F3BAC6787}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3EEB2BE1-99C4-442D-AAD6-C48C6107AA70}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3EEB2BE1-99C4-442D-AAD6-C48C6107AA70}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3EEB2BE1-99C4-442D-AAD6-C48C6107AA70}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3EEB2BE1-99C4-442D-AAD6-C48C6107AA70}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

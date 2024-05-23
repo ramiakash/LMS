@@ -11,12 +11,11 @@ namespace LMS.Application.Services
 	public class UserService : IUserService
 	{
 		private readonly IUnitOfWork _unitOfWork;
-		private readonly ILoggerService _loggerService;
+		//private readonly ILoggerService _loggerService;
 
-		public UserService(IUnitOfWork unitOfWork, ILoggerService loggerService)
+		public UserService(IUnitOfWork unitOfWork)
 		{
 			_unitOfWork = unitOfWork;
-			_loggerService = loggerService;
 		}
 
 		public async Task<UserDTO> CreateUser(UserDTO req)
@@ -32,7 +31,7 @@ namespace LMS.Application.Services
 
 			await _unitOfWork.SaveChangesAsync();
 
-			_loggerService.LogInfo("New user created");
+			//_loggerService.LogInfo("New user created");
 
 			return new UserDTO(user);
 
@@ -45,14 +44,14 @@ namespace LMS.Application.Services
 
 			if (user == null)
 			{
-				_loggerService.LogInfo("User not found");
+				//_loggerService.LogInfo("User not found");
 
 				throw new Exception("User Not Found");
 			}
 
 			if (user.Status != UserStatus.Active)
 			{
-				_loggerService.LogInfo("User not active");
+				//_loggerService.LogInfo("User not active");
 
 				throw new Exception("User Not Found");
 			}

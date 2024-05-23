@@ -11,8 +11,9 @@ namespace LMS.Application.Models.DTOs
 		public string Password { get; set; }
 		public int Status { get; set; }
         public string StatusText { get; set; }
+		public UserDTO() { }
 
-        public UserDTO(User user)
+		public UserDTO(User user)
         {
             Id = user.Id;
             FirstName = user.FirstName;

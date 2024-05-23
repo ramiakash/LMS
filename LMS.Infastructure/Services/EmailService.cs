@@ -9,12 +9,12 @@ namespace LMS.Infrastructure.Services
     public class EmailService : IEmailService
     {
         private readonly IConfiguration _config;
-        private readonly ILoggerService _loggerService;
+        //private readonly ILoggerService _loggerService;
 
-        public EmailService(IConfiguration config, ILoggerService loggerService)
+        public EmailService(IConfiguration config )
         {
             _config = config;
-            _loggerService = loggerService;
+            //_loggerService = loggerService;
         }
 
         public void SendEmail(Email email)
@@ -97,7 +97,7 @@ namespace LMS.Infrastructure.Services
             }
             catch (Exception ex)
             {
-                _loggerService.LogException(ex);
+                //_loggerService.LogException(ex);
             }
         }
     }

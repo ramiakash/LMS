@@ -13,11 +13,11 @@ namespace LMS.Application.Services
 	public class CourseService : ICourseService
 	{
 		private readonly IUnitOfWork _unitOfWork;
-		private readonly ILoggerService _loggerService;
-        public CourseService(IUnitOfWork unitOfWork, ILoggerService loggerService)
+		 
+        public CourseService(IUnitOfWork unitOfWork )
 		{
 			_unitOfWork = unitOfWork;
-			_loggerService = loggerService;
+			//_loggerService = loggerService;
 		}
 	 
         public Task<CourseDto> AddCourse(CourseDto course)

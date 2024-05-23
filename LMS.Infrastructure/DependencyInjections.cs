@@ -5,7 +5,6 @@ using LMS.Application.Core.Services;
 using LMS.Domain.Core.Repositories;
 using LMS.Infrastructure.Data;
 using LMS.Infrastructure.Repositories;
-using LMS.Infrastructure.Services;
 
 namespace LMS.Infrastructure
 {
@@ -14,14 +13,11 @@ namespace LMS.Infrastructure
         public static void ConfigureServices(IServiceCollection services, IConfiguration Configuration)
         {
             services.AddDbContext<LMSDbContext>(options =>
-                options.UseSqlServer("name=ConnectionStrings:LMSDatabase",
-                x => x.MigrationsAssembly("LMS.Infrastructure")));
+                options.UseSqlServer(Configuration.GetConnectionString("LMSDatabase")));
 
-            services.AddScoped(typeof(IBaseRepositoryAsync<>), typeof(BaseRepositoryAsync<>));
+			services.AddScoped(typeof(IBaseRepositoryAsync<>), typeof(BaseRepositoryAsync<>));
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             
-            services.AddScoped<IEmailService, EmailService>();
-            services.AddScoped<ILoggerService, LoggerService>();
         }
 
         public static void MigrateDatabase(IServiceProvider serviceProvider)
