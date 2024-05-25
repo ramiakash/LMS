@@ -11,9 +11,9 @@ namespace LMS.Domain.Specification
 {
 	public class UserSpecification
 	{
-		public static BaseSpecification<User> GetUserByEmailAndPasswordSpec(string emailId, string password)
+		public static BaseSpecification<User> GetUserByEmailAndPasswordSpec(string emailId, string passwordHash)
 		{
-			return new BaseSpecification<User>(x => x.EmailId == emailId && x.Password == password && x.IsDeleted == false);
+			return new BaseSpecification<User>(x => x.EmailId == emailId && x.PasswordHash == passwordHash && x.IsDeleted == false);
 		}
 
 		public static BaseSpecification<User> GetAllActiveUsersSpec()

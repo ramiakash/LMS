@@ -33,8 +33,7 @@ namespace LMS.Application.Services
 				Name = courseDto.Name,
 				Description = courseDto.Description,
 				Price = courseDto.Price,
-				Students = courseDto.Students,
-				Teachers = courseDto.Teachers
+				UserCourses = courseDto.UserCourses
 
 			});
 
@@ -86,8 +85,7 @@ namespace LMS.Application.Services
 			course.Name = courseDto.Name;
 			course.Description = courseDto.Description;
 			course.Price = courseDto.Price;
-			course.Students = courseDto.Students;
-			course.Teachers = courseDto.Teachers;
+			course.UserCourses = courseDto.UserCourses;
 
 			_unitOfWork.Repository<Course>().Update(course);
 			await _unitOfWork.SaveChangesAsync();

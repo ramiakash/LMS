@@ -15,14 +15,12 @@ namespace LMS.Application.Models.DTOs
 			Name = course.Name;
 			Description = course.Description;
 			Price = course.Price;
-			Students = course.Students;
-			Teachers = course.Teachers;
+			UserCourses = course.UserCourses;
         }
         public Guid Id { get; set; }
 		public string Name { get; set; }
 		public string Description { get; set; }
 		public float Price { get; set; }
-		public List<User> Students { get; set; }
-		public List<User> Teachers { get; set; }
+		public List<UserCourse> UserCourses { get; set; }
 	}
 }

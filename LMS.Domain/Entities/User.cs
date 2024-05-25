@@ -16,7 +16,7 @@ namespace LMS.Domain.Entities
 		public string FirstName { get; set; }
 		public string LastName { get; set; }
 		public string EmailId { get; set; }
-		public string Password { get; set; }
+		public string PasswordHash { get; set; }
 		public UserStatus Status { get; set; }
 		public UserRole Role { get; set; }
 		public Guid CreatedBy { get; set; }
@@ -24,5 +24,7 @@ namespace LMS.Domain.Entities
 		public Guid? LastModifiedBy { get; set; }
 		public DateTimeOffset? LastModifiedOn { get; set; }
 		public bool IsDeleted { get; set; }
+
+		public List<UserCourse> UserCourses { get; set; }
 	}
 }

@@ -15,8 +15,7 @@ namespace LMS.Domain.Entities
 		public string Name { get; set; }
 		public string Description { get; set; }
 		public float Price { get; set; }
-		public List<User> Students { get; set; }
-		public List<User> Teachers { get; set; }
+		public List<UserCourse> UserCourses { get; set; }
 		public Guid CreatedBy { get; set; }
 		public DateTimeOffset CreatedOn { get; set; }
 		public Guid? LastModifiedBy { get; set; }

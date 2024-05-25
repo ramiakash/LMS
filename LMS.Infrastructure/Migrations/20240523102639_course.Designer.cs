@@ -4,6 +4,7 @@ using LMS.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LMS.Infrastructure.Migrations
 {
     [DbContext(typeof(LMSDbContext))]
-    partial class LMSDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240523102639_course")]
+    partial class course
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -65,6 +68,12 @@ namespace LMS.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid?>("CourseId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("CourseId1")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<Guid>("CreatedBy")
                         .HasColumnType("uniqueidentifier");
 
@@ -92,7 +101,7 @@ namespace LMS.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("PasswordHash")
+                    b.Property<string>("Password")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -104,51 +113,29 @@ namespace LMS.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CourseId");
+
+                    b.HasIndex("CourseId1");
+
                     b.ToTable("Users");
-                });
-
-            modelBuilder.Entity("LMS.Domain.Entities.UserCourse", b =>
-                {
-                    b.Property<Guid>("CourseId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("CourseId", "UserId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("userCourses");
-                });
-
-            modelBuilder.Entity("LMS.Domain.Entities.UserCourse", b =>
-                {
-                    b.HasOne("LMS.Domain.Entities.Course", "Course")
-                        .WithMany("UserCourses")
-                        .HasForeignKey("CourseId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("LMS.Domain.Entities.User", "User")
-                        .WithMany("UserCourses")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Course");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("LMS.Domain.Entities.Course", b =>
-                {
-                    b.Navigation("UserCourses");
                 });
 
             modelBuilder.Entity("LMS.Domain.Entities.User", b =>
                 {
-                    b.Navigation("UserCourses");
+                    b.HasOne("LMS.Domain.Entities.Course", null)
+                        .WithMany("Students")
+                        .HasForeignKey("CourseId");
+
+                    b.HasOne("LMS.Domain.Entities.Course", null)
+                        .WithMany("Teachers")
+                        .HasForeignKey("CourseId1");
+                });
+
+            modelBuilder.Entity("LMS.Domain.Entities.Course", b =>
+                {
+                    b.Navigation("Students");
+
+                    b.Navigation("Teachers");
                 });
 #pragma warning restore 612, 618
         }

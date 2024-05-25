@@ -4,6 +4,7 @@ using LMS.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LMS.Infrastructure.Migrations
 {
     [DbContext(typeof(LMSDbContext))]
-    partial class LMSDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240523104057_courseteacherrelations")]
+    partial class courseteacherrelations
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -59,6 +62,36 @@ namespace LMS.Infrastructure.Migrations
                     b.ToTable("Courses");
                 });
 
+            modelBuilder.Entity("LMS.Domain.Entities.CourseStudent", b =>
+                {
+                    b.Property<Guid>("CourseId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("StudentId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("CourseId", "StudentId");
+
+                    b.HasIndex("StudentId");
+
+                    b.ToTable("CourseStudents");
+                });
+
+            modelBuilder.Entity("LMS.Domain.Entities.CourseTeacher", b =>
+                {
+                    b.Property<Guid>("CourseId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("TeacherId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("CourseId", "TeacherId");
+
+                    b.HasIndex("TeacherId");
+
+                    b.ToTable("CourseTeachers");
+                });
+
             modelBuilder.Entity("LMS.Domain.Entities.User", b =>
                 {
                     b.Property<Guid>("Id")
@@ -92,7 +125,7 @@ namespace LMS.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("PasswordHash")
+                    b.Property<string>("Password")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -107,48 +140,56 @@ namespace LMS.Infrastructure.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("LMS.Domain.Entities.UserCourse", b =>
-                {
-                    b.Property<Guid>("CourseId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("CourseId", "UserId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("userCourses");
-                });
-
-            modelBuilder.Entity("LMS.Domain.Entities.UserCourse", b =>
+            modelBuilder.Entity("LMS.Domain.Entities.CourseStudent", b =>
                 {
                     b.HasOne("LMS.Domain.Entities.Course", "Course")
-                        .WithMany("UserCourses")
+                        .WithMany("CourseStudents")
                         .HasForeignKey("CourseId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("LMS.Domain.Entities.User", "User")
-                        .WithMany("UserCourses")
-                        .HasForeignKey("UserId")
+                    b.HasOne("LMS.Domain.Entities.User", "Student")
+                        .WithMany("CourseStudents")
+                        .HasForeignKey("StudentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Course");
 
-                    b.Navigation("User");
+                    b.Navigation("Student");
+                });
+
+            modelBuilder.Entity("LMS.Domain.Entities.CourseTeacher", b =>
+                {
+                    b.HasOne("LMS.Domain.Entities.Course", "Course")
+                        .WithMany("CourseTeachers")
+                        .HasForeignKey("CourseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("LMS.Domain.Entities.User", "Teacher")
+                        .WithMany("CourseTeachers")
+                        .HasForeignKey("TeacherId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Course");
+
+                    b.Navigation("Teacher");
                 });
 
             modelBuilder.Entity("LMS.Domain.Entities.Course", b =>
                 {
-                    b.Navigation("UserCourses");
+                    b.Navigation("CourseStudents");
+
+                    b.Navigation("CourseTeachers");
                 });
 
             modelBuilder.Entity("LMS.Domain.Entities.User", b =>
                 {
-                    b.Navigation("UserCourses");
+                    b.Navigation("CourseStudents");
+
+                    b.Navigation("CourseTeachers");
                 });
 #pragma warning restore 612, 618
         }

@@ -18,16 +18,19 @@ namespace LMS.Application.Services
 			_unitOfWork = unitOfWork;
 		}
 
-		public async Task<UserDTO> CreateUser(UserDTO userDto)
+		public async Task<UserDTO> CreateUser(RegistrationRequestDTO registrationRequestDTO)
 		{
+
+			//hash the password before sending it over to the user table
+			var passwordHash = registrationRequestDTO.Password; //must do a hashing
 			var user = await _unitOfWork.Repository<User>().AddAsync(new User
 			{
-				FirstName = userDto.FirstName,
-				LastName = userDto.LastName,
-				EmailId = userDto.EmailId,
-				Password = userDto.Password,
-				Status = (UserStatus)userDto.Status,
-				Role = (UserRole)userDto.Role
+				FirstName = registrationRequestDTO.FirstName,
+				LastName = registrationRequestDTO.LastName,
+				EmailId = registrationRequestDTO.EmailId,
+				PasswordHash= passwordHash,
+				Status = (UserStatus)registrationRequestDTO.Status,
+				Role = (UserRole)registrationRequestDTO.Role
 			});
 
 			await _unitOfWork.SaveChangesAsync();
@@ -38,9 +41,12 @@ namespace LMS.Application.Services
 
 		}
 
-		public async Task<UserDTO> ValidateUser(UserDTO userDto)
+		public async Task<UserDTO> AuthenticateUser(AuthenticationRequestDTO authenticationRequest)
 		{
-			var spec = UserSpecification.GetUserByEmailAndPasswordSpec(userDto.EmailId, userDto.Password);
+
+			//do hash for password like so var passwordHasheed = HashPassword(authenticationRequest.Password);
+			var passwordHashed = authenticationRequest.Password; //no hashing as of now
+			var spec = UserSpecification.GetUserByEmailAndPasswordSpec(authenticationRequest.Email, passwordHashed);
 			var user = await _unitOfWork.Repository<User>().FirstOrDefaultAsync(spec);
 
 			if (user == null)
