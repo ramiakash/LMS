@@ -11,10 +11,10 @@ namespace LMS.WebAPI.Controllers
 	public class CourseController : ControllerBase
 	{
 		private readonly ICourseService _courseService;
-        public CourseController(ICourseService courseService)
-        {
-				_courseService = courseService;
-        }
+		public CourseController(ICourseService courseService)
+		{
+			_courseService = courseService;
+		}
 		[HttpPut]
 		public async Task<ActionResult<CourseDto>> UpdateCourseAsync(CourseDto courseDto)
 		{
@@ -22,9 +22,9 @@ namespace LMS.WebAPI.Controllers
 			return Ok(result);
 		}
 		[HttpPost]
-		public async Task<ActionResult<CourseDto>> CreateCourseAsync(CourseDto courseDto)
+		public async Task<ActionResult<CourseDto>> CreateCourseAsync([FromBody] CourseCreationDto courseCreationDto)
 		{
-			var result = await _courseService.CreateCourseAsync(courseDto);
+			var result = await _courseService.CreateCourseAsync(courseCreationDto.courseDto, courseCreationDto.userIds);
 			return Ok(result);
 		}
 		[HttpGet]

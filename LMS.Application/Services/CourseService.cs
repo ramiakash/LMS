@@ -11,6 +11,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Http;
 using System.Xml.Linq;
 
 namespace LMS.Application.Services
@@ -25,7 +26,7 @@ namespace LMS.Application.Services
 			//_loggerService = loggerService;
 		}
 
-		public async Task<CourseDto> CreateCourseAsync(CourseDto courseDto)
+		public async Task<CourseDto> CreateCourseAsync([FromBody] CourseDto courseDto, [FromBody] List<Guid> userIds)
 		{
 			var course = await _unitOfWork.Repository<Course>().AddAsync(new Course
 			{
@@ -33,10 +34,16 @@ namespace LMS.Application.Services
 				Name = courseDto.Name,
 				Description = courseDto.Description,
 				Price = courseDto.Price,
-				UserCourses = courseDto.UserCourses
 
 			});
-
+			foreach (var userId in userIds)
+			{
+				var UserCourse = await _unitOfWork.Repository<UserCourse>().AddAsync(new UserCourse
+				{
+					 CourseId = courseDto.Id,
+					 UserId = userId
+				});
+			}
 			await _unitOfWork.SaveChangesAsync();
 
 			//_loggerService.LogInfo("New user created");
@@ -85,7 +92,6 @@ namespace LMS.Application.Services
 			course.Name = courseDto.Name;
 			course.Description = courseDto.Description;
 			course.Price = courseDto.Price;
-			course.UserCourses = courseDto.UserCourses;
 
 			_unitOfWork.Repository<Course>().Update(course);
 			await _unitOfWork.SaveChangesAsync();

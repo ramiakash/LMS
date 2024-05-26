@@ -9,7 +9,7 @@ namespace LMS.Application.Interfaces
 {
 	public interface ICourseService
 	{
-		Task<CourseDto> CreateCourseAsync(CourseDto courseDto);
+		Task<CourseDto> CreateCourseAsync(CourseDto courseDto, List<Guid> userIds);
 		Task<CourseDto> UpdateCourseAsync(CourseDto courseDto);
 		Task<CourseDto> DeleteCourseAsync(Guid courseId);
 		Task<IEnumerable<CourseDto>> GetAllCourses();
