@@ -26,7 +26,7 @@ namespace LMS.Application.Services
 			//_loggerService = loggerService;
 		}
 
-		public async Task<CourseDto> CreateCourseAsync([FromBody] CourseDto courseDto, [FromBody] List<Guid> userIds)
+		public async Task<CourseDto> CreateCourseAsync(CourseDto courseDto,List<Guid> userIds)
 		{
 			var course = await _unitOfWork.Repository<Course>().AddAsync(new Course
 			{
