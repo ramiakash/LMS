@@ -1,9 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using LMS.Domain.Entities;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace LMS.Infrastructure.Data
 {
-    public class LMSDbContext : DbContext
+    public class LMSDbContext : IdentityDbContext<AppUser>
     {
         public LMSDbContext(DbContextOptions<LMSDbContext> options) : base(options)
         { }
